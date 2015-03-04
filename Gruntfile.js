@@ -89,7 +89,9 @@ module.exports = function (grunt) {
           '_config.build.yml',
           '_config.yml',
           'bower.json',
-          '.bowerrc'
+          '.bowerrc',
+          'Gemfile',
+          'Gemfile.lock'
         ],
         tasks: ['local']
       },
@@ -480,6 +482,9 @@ module.exports = function (grunt) {
     shell: {
       bower: {
         command: 'bower install'
+      },
+      gem: {
+        command: 'bundle install'
       }
     }
   });
@@ -505,6 +510,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('local', [
+    'shell:gem',
     'shell:bower',
     'clean:server',
     'concurrent:server',
@@ -537,6 +543,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'shell:gem',
     'shell:bower',
     'clean',
     // Jekyll cleans files from the target directory, so must run first
