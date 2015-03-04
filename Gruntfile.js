@@ -172,8 +172,6 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      js: ['.tmp/js/*'],
-      css: ['.tmp/css'],
       server: [
         '.tmp',
         '.jekyll'
