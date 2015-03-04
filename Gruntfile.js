@@ -426,10 +426,12 @@ module.exports = function (grunt) {
     buildcontrol: {
       dist: {
         options: {
-          remote: '../',
+          dir: 'dist',
+          remote: 'git@bitbucket.org:Chosko/jekyll-project-compiled',
           branch: 'gh-pages',
           commit: true,
-          push: true
+          push: true,
+          message: 'Built %sourceName% from commit %sourceCommit%'
         }
       }
     },
