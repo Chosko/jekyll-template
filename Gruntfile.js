@@ -9,42 +9,44 @@
 //   images: img
 //   fonts: fonts
 
+
 module.exports = function (grunt) {
   // Show elapsed time after tasks run
   require('time-grunt')(grunt);
   // Load all Grunt tasks
   require('load-grunt-tasks')(grunt);
+  // Load yaml parser and filesystem  lib
+
+  // Read configuration from _config.yml
+  var configuration = grunt.file.readYAML('_config.yml');
 
   grunt.initConfig({
     // Configurable paths
-    yeoman: {
-      app: 'app',
-      dist: 'dist'
-    },
+    config: configuration.build_settings,
     watch: {
       compass: {  // Build scss and sass files when changed or added. Then, autoprefix built css
-        files: ['<%= yeoman.app %>/_scss/**/*.{scss,sass}'],
+        files: ['<%= config.app %>/_scss/**/*.{scss,sass}'],
         tasks: ['compass:server', 'newer:autoprefixer:server', 'newer:scsslint'],
         options: {
           event: ['added', 'changed']
         }
       },
       css: { // Copy css files when changed or added. Then, autoprefix pasted css
-        files: ['<%= yeoman.app %>/css/**/*.css'],
+        files: ['<%= config.app %>/css/**/*.css'],
         tasks: ['newer:copy:stageCss', 'newer:autoprefixer:server', 'newer:csslint:check'],
         options: {
           event: ['added', 'changed']
         }
       },
       js: { // js_hint js files when added and changed
-        files: ['<%= yeoman.app %>/js/**/*.js'],
+        files: ['<%= config.app %>/js/**/*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           event: ['added', 'changed'],
         }
       },
       coffee: { // Build coffee files when added or changed
-        files: ['<%= yeoman.app %>/_src/**/*.coffee'],
+        files: ['<%= config.app %>/_src/**/*.coffee'],
         tasks: ['coffee:dist', 'newer:coffeelint:check'],
         options: {
           event: ['added', 'changed']
@@ -58,7 +60,7 @@ module.exports = function (grunt) {
         files: [
           '.tmp/css/**/*.css',
           '.tmp/js/**/*.js',
-          '<%= yeoman.app %>/js/**/*.js'
+          '<%= config.app %>/js/**/*.js'
         ],
         tasks: ['injector'],
         options: {
@@ -67,9 +69,9 @@ module.exports = function (grunt) {
       },
       deletedStylesScripts: { // Rebuild everything when a source css/scss/sass/coffee file is deleted (it's hard to remove only a target source+built couple)
         files: [
-          '<%= yeoman.app %>/_src/**/*.coffee',
-          '<%= yeoman.app %>/css/**/*.css',
-          '<%= yeoman.app %>/_scss/**/*.{scss,sass}'
+          '<%= config.app %>/_src/**/*.coffee',
+          '<%= config.app %>/css/**/*.css',
+          '<%= config.app %>/_scss/**/*.{scss,sass}'
         ],
         tasks: ['local'],
         options: {
@@ -77,7 +79,7 @@ module.exports = function (grunt) {
         }
       },
       deletedJs: {  // Source js deletion it's easier to manage. Running the injector it's enough.
-        files: ['<%= yeoman.app %>/js/**/*.js'],
+        files: ['<%= config.app %>/js/**/*.js'],
         tasks: ['injector'],
         options: {
           event: ['deleted']
@@ -109,8 +111,8 @@ module.exports = function (grunt) {
       },
       jekyll: { // Run jekyll when source html content change
         files: [
-          '<%= yeoman.app %>/**/*.{html,yml,md,mkd,markdown}',
-          '!<%= yeoman.app %>/_bower_components/**/*'
+          '<%= config.app %>/**/*.{html,yml,md,mkd,markdown}',
+          '!<%= config.app %>/_bower_components/**/*'
         ],
         tasks: ['jekyll:server']
       },
@@ -122,8 +124,8 @@ module.exports = function (grunt) {
           '.jekyll/**/*.html',
           '.tmp/css/**/*{.css,.css.map}',
           '.tmp/js/**/*{.js,.js.map}',
-          '<%= yeoman.app %>/js/**/*.js',
-          '<%= yeoman.app %>/img/**/*.{gif,jpg,jpeg,png,svg,webp}'
+          '<%= config.app %>/js/**/*.js',
+          '<%= config.app %>/img/**/*.{gif,jpg,jpeg,png,svg,webp}'
         ]
       }
     },
@@ -140,7 +142,7 @@ module.exports = function (grunt) {
           base: [
             '.tmp',
             '.jekyll',
-            '<%= yeoman.app %>'
+            '<%= config.app %>'
           ]
         }
       },
@@ -148,7 +150,7 @@ module.exports = function (grunt) {
         options: {
           open: true,
           base: [
-            '<%= yeoman.dist %>'
+            '<%= config.dist %>'
           ]
         }
       },
@@ -158,7 +160,7 @@ module.exports = function (grunt) {
             '.tmp',
             '.jekyll',
             'test',
-            '<%= yeoman.app %>'
+            '<%= config.app %>'
           ]
         }
       }
@@ -168,11 +170,11 @@ module.exports = function (grunt) {
         files: [{
           dot: true,
           src: [
-            '<%= yeoman.dist %>/*',
+            '<%= config.dist %>/*',
             // Running Jekyll also cleans the target directory.  Exclude any
             // non-standard `keep_files` here (e.g., the generated files
             // directory from Jekyll Picture Tag).
-            '!<%= yeoman.dist %>/.git*'
+            '!<%= config.dist %>/.git*'
           ]
         }]
       },
@@ -187,19 +189,19 @@ module.exports = function (grunt) {
         // require: ['singularity', 'jacket'],
         bundleExec: true,
         sourcemap: true,
-        sassDir: '<%= yeoman.app %>/_scss',
+        sassDir: '<%= config.app %>/_scss',
         cssDir: '.tmp/css',
-        imagesDir: '<%= yeoman.app %>/img',
-        javascriptsDir: '<%= yeoman.app %>/js',
+        imagesDir: '<%= config.app %>/img',
+        javascriptsDir: '<%= config.app %>/js',
         relativeAssets: false,
         httpImagesPath: '/img',
         httpGeneratedImagesPath: '/img/generated',
         outputStyle: 'expanded',
-        raw: 'extensions_dir = "<%= yeoman.app %>/_bower_components"\n'
+        raw: 'extensions_dir = "<%= config.app %>/_bower_components"\n'
       },
       dist: {
         options: {
-          generatedImagesDir: '<%= yeoman.dist %>/img/generated'
+          generatedImagesDir: '<%= config.dist %>/img/generated'
         }
       },
       server: {
@@ -216,9 +218,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>/css',
+          cwd: '<%= config.dist %>/css',
           src: '**/*.css',
-          dest: '<%= yeoman.dist %>/css'
+          dest: '<%= config.dist %>/css'
         }]
       },
       server: {
@@ -237,7 +239,7 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.app %>/_src',
+          cwd: '<%= config.app %>/_src',
           src: '**/*.coffee',
           dest: '.tmp/js',
           ext: '.js'
@@ -256,18 +258,18 @@ module.exports = function (grunt) {
     injector: {
         local_dependencies: {
           files: {
-            '<%= yeoman.app %>/_includes/styles.html': [
+            '<%= config.app %>/_includes/styles.html': [
                 '.tmp/css/**/*.css'
               ],
-            '<%= yeoman.app %>/_includes/scripts.html': [
-                '<%= yeoman.app %>/js/**/*.js',
+            '<%= config.app %>/_includes/scripts.html': [
+                '<%= config.app %>/js/**/*.js',
                 '.tmp/js/**/*.js'
               ],
           },
         },
         options: {
           ignorePath: [
-            '<%= yeoman.app %>',
+            '<%= config.app %>',
             '.tmp'
           ]
         }
@@ -275,12 +277,12 @@ module.exports = function (grunt) {
     wiredep: {
       inject:{
         src: [
-          '<%= yeoman.app %>/_includes/styles.html',
-          '<%= yeoman.app %>/_includes/scripts.html'
+          '<%= config.app %>/_includes/styles.html',
+          '<%= config.app %>/_includes/scripts.html'
         ],
         exclude: [
-          // '<%= yeoman.app %>/_bower_components/bootstrap/dist/css/', // Include the src files directly with Compass
-          '<%= yeoman.app %>/_bower_components/modernizr' // Included manually on the header
+          // '<%= config.app %>/_bower_components/bootstrap/dist/css/', // Include the src files directly with Compass
+          '<%= config.app %>/_bower_components/modernizr' // Included manually on the header
         ],
         dependencies: true,
         devDependencies: true,
@@ -301,11 +303,11 @@ module.exports = function (grunt) {
       options: {
         bundleExec: true,
         config: '_config.yml,_config.build.yml',
-        src: '<%= yeoman.app %>'
+        src: '<%= config.app %>'
       },
       dist: {
         options: {
-          dest: '<%= yeoman.dist %>',
+          dest: '<%= config.dist %>',
         }
       },
       server: {
@@ -322,16 +324,16 @@ module.exports = function (grunt) {
     },
     useminPrepare: {
       options: {
-        dest: '<%= yeoman.dist %>'
+        dest: '<%= config.dist %>'
       },
-      html: '<%= yeoman.dist %>/index.html'
+      html: '<%= config.dist %>/index.html'
     },
     usemin: {
       options: {
-        assetsDirs: '<%= yeoman.dist %>',
+        assetsDirs: '<%= config.dist %>',
       },
-      html: ['<%= yeoman.dist %>/**/*.html'],
-      css: ['<%= yeoman.dist %>/css/**/*.css']
+      html: ['<%= config.dist %>/**/*.html'],
+      css: ['<%= config.dist %>/css/**/*.css']
     },
     htmlmin: {
       dist: {
@@ -343,9 +345,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>',
+          cwd: '<%= config.dist %>',
           src: '**/*.html',
-          dest: '<%= yeoman.dist %>'
+          dest: '<%= config.dist %>'
         }]
       }
     },
@@ -368,9 +370,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>',
+          cwd: '<%= config.dist %>',
           src: '**/*.{jpg,jpeg,png}',
-          dest: '<%= yeoman.dist %>'
+          dest: '<%= config.dist %>'
         }]
       }
     },
@@ -378,9 +380,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>',
+          cwd: '<%= config.dist %>',
           src: '**/*.svg',
-          dest: '<%= yeoman.dist %>'
+          dest: '<%= config.dist %>'
         }]
       }
     },
@@ -389,7 +391,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= yeoman.app %>',
+          cwd: '<%= config.app %>',
           src: [
             // Jekyll processes and moves HTML and text files.
             // Usemin moves CSS and javascript inside of Usemin blocks.
@@ -401,12 +403,12 @@ module.exports = function (grunt) {
             'favicon.ico',
             'apple-touch*.png'
           ],
-          dest: '<%= yeoman.dist %>'
+          dest: '<%= config.dist %>'
         }, {
           expand: true,
           cwd: '.tmp/fonts/',
           src: '{,*/}*.{eot,otf,svg,ttf,woff,woff2}',
-          dest: '<%= yeoman.dist %>/fonts'
+          dest: '<%= config.dist %>/fonts'
         }]
       },
       // Copy CSS into .tmp directory for Autoprefixer processing
@@ -414,7 +416,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= yeoman.app %>/css',
+          cwd: '<%= config.app %>/css',
           src: '**/*.css',
           dest: '.tmp/css'
         }]
@@ -422,7 +424,7 @@ module.exports = function (grunt) {
       fonts: {
         files:[{
           expand: true,
-          cwd: '<%= yeoman.app %>/_bower_components/bootstrap-sass/assets/fonts/',
+          cwd: '<%= config.app %>/_bower_components/bootstrap-sass/assets/fonts/',
           dest: '.tmp/fonts/',
           src: '{,*/}*.{eot,otf,svg,ttf,woff,woff2}'
         }]
@@ -435,10 +437,10 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           src: [
-            '<%= yeoman.dist %>/js/**/*.js',
-            '<%= yeoman.dist %>/css/**/*.css',
-            '<%= yeoman.dist %>/img/**/*.{gif,jpg,jpeg,png,svg,webp}',
-            '<%= yeoman.dist %>/fonts/**/*.{eot*,otf,svg,ttf,woff}'
+            '<%= config.dist %>/js/**/*.js',
+            '<%= config.dist %>/css/**/*.css',
+            '<%= config.dist %>/img/**/*.{gif,jpg,jpeg,png,svg,webp}',
+            '<%= config.dist %>/fonts/**/*.{eot*,otf,svg,ttf,woff}'
           ]
         }]
       }
@@ -447,8 +449,8 @@ module.exports = function (grunt) {
       dist: {
         options: {
           dir: 'dist',
-          remote: 'git@bitbucket.org:Chosko/jekyll-project-compiled',
-          branch: 'gh-pages',
+          remote: '<%= config.deploy.remote %>',
+          branch: '<%= config.deploy.branch %>',
           commit: true,
           push: true,
           message: 'Built %sourceName% from commit %sourceCommit%'
@@ -461,7 +463,7 @@ module.exports = function (grunt) {
           'level': 'ignore'
         }
       },
-      check: ['<%= yeoman.app %>/_src/*.coffee']
+      check: ['<%= config.app %>/_src/*.coffee']
     },
     jshint: {
       options: {
@@ -470,7 +472,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/js/**/*.js',
+        '<%= config.app %>/js/**/*.js',
         'test/spec/**/*.js'
       ]
     },
@@ -479,11 +481,11 @@ module.exports = function (grunt) {
         csslintrc: '.csslintrc'
       },
       check: {
-        src: ['<%= yeoman.app %>/css/**/*.css']
+        src: ['<%= config.app %>/css/**/*.css']
       }
     },
     scsslint: {
-      allFiles: ['<%= yeoman.app %>/_scss/**/*.scss'],
+      allFiles: ['<%= config.app %>/_scss/**/*.scss'],
       options: {
         bundleExec: true,
         config: '.scss-lint.yml'
@@ -507,6 +509,12 @@ module.exports = function (grunt) {
       },
       gem: {
         command: 'bundle install'
+      }
+    },
+    writeCNAME: {
+      options: {
+        cname: '<%= config.cname %>',
+        dest: '<%= config.dist %>/CNAME'
       }
     }
   });
@@ -554,6 +562,14 @@ module.exports = function (grunt) {
     'wiredep'
   ]);
 
+  grunt.registerTask('writeCNAME', function() {
+    var opts = this.options();
+    if(opts.cname && opts.dest){
+      grunt.file.write(opts.dest,opts.cname);
+      grunt.log.ok('CNAME file written into dist folder (' + opts.cname + ')');
+    }
+  });
+
   grunt.registerTask('check', [
     'clean:server',
     'jekyll:check',
@@ -574,6 +590,7 @@ module.exports = function (grunt) {
     'injectDependencies',
     'jekyll:dist', // Jekyll cleans files from the target directory, so must run first
     'copy:dist',
+    'writeCNAME',
     'useminPrepare',
     'concat',
     'autoprefixer:dist',

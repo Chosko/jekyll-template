@@ -3,17 +3,43 @@
 # 2. config.build.yml
 # 3. config.yml
 
-name: jekyll-project
-description: Jekyll empty project
+#
+# Update this configuration block with your data
+#
+
+name: Jekyll Template  # The name of your site
+description: This is a jekyll template  # This description will be injected as <meta> description tag unless another description variable is defined in the page
 author:
-  name: Ruben Caliandro
-  email: ruben.caliandro@gmail.com
+  name: Author Name
+  email: author.name@example.com
+
+#
+# Update this configuration block with your deploy settings
+#
+
+build_settings:
+  app: app    # The source directory. Usually you don't need to change this
+  dist: dist  # The dest directory. The whole website will be built there. Usually you don't need to change this
+  google_analytics: UA-XXXXX-X  # The google analytics id
+  cname: ""   # Your domain. A CNAME file will be created in your dist directory, following the Github Pages conventions
+  deploy:     # The repository used to deploy the built site. Make sure that the repository exists
+    remote: "../" # example: git@github.com:User/mywebsite  make sure to set this before running grunt deploy!
+    branch: gh-pages
+
+
+
+#
+# Usually you don't need to change these others configurations.
+# If you need to change them, you may have to change other config files.
+#
+
+env: development
 
 # Grunt handles images and assets.
 exclude: ['img', 'css', 'js', 'fonts',
           '**.png', '**.jpg', '**.jpeg', '**.gif', '**.webp', '**.svg', '**.ico']
 
-include: ['.htaccess']
+include: ['CNAME']
 
 # _config.build.yml sets future and show_drafts to false on `grunt build`
 future: true
@@ -24,6 +50,3 @@ markdown: redcarpet
 #   extensions: ['fenced_code_blocks', 'smart']
 
 pygments: true
-
-# This is used for the dev env
-google_analytics: UA-XXXXX-X

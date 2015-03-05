@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>{{ page.title }}</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <title>{{ page.title }}{%if page.title %} | {% endif %}{{ site.name }}</title>
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="author" content="{{ site.author.name }}">
     <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
     <link rel="icon" href="/favicon.ico">
 
@@ -27,7 +27,9 @@
     {{ content }}
 
     {% include scripts.html %}
-    {% include googleanalytics.html %}
+    {% if site.env == "production" %}
+      {% include googleanalytics.html %}
+    {% endif %}
 
   </body>
 </html>

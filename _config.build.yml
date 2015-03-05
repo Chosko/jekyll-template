@@ -3,5 +3,6 @@
 # 2. config.build.yml
 # 3. config.yml
 
+env: production
 future: false
 show_drafts: false
