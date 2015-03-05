@@ -227,7 +227,10 @@ module.exports = function (grunt) {
           cwd: '.tmp/css',
           src: '**/*.css',
           dest: '.tmp/css'
-        }]
+        }],
+        options: {
+          map: true // Update the sourcemap files
+        }
       }
     },
     coffee: {
@@ -399,6 +402,11 @@ module.exports = function (grunt) {
             'apple-touch*.png'
           ],
           dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: '.tmp/fonts/',
+          src: '{,*/}*.{eot,otf,svg,ttf,woff,woff2}',
+          dest: '<%= yeoman.dist %>/fonts'
         }]
       },
       // Copy CSS into .tmp directory for Autoprefixer processing
@@ -409,6 +417,14 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>/css',
           src: '**/*.css',
           dest: '.tmp/css'
+        }]
+      },
+      fonts: {
+        files:[{
+          expand: true,
+          cwd: '<%= yeoman.app %>/_bower_components/bootstrap-sass/assets/fonts/',
+          dest: '.tmp/fonts/',
+          src: '{,*/}*.{eot,otf,svg,ttf,woff,woff2}'
         }]
       }
     },
@@ -478,6 +494,7 @@ module.exports = function (grunt) {
         'compass:server',
         'coffee:dist',
         'copy:stageCss',
+        'copy:fonts'
       ],
       dist: [
         'compass:dist',
@@ -522,7 +539,7 @@ module.exports = function (grunt) {
     'concurrent:server',
     'injectDependencies',
     'jekyll:server',
-    'autoprefixer:server'
+    'autoprefixer:server',
   ]);
 
 
