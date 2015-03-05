@@ -1,0 +1,19 @@
+/**
+ * This is the base import file. To import everything,
+ * You need just to include this file into your own scss.
+ */
+
+/* Import the base boilerplate rules */
+@import 'boilerplate';
+
+/* Import the syntax highlighting rules */
+@import 'syntax';
+
+/* Import your custom variables */
+@import 'variables';
+
+/* Import bootstrap */
+@import '../_bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
+
+/* Import your custom mixins */
+@import 'mixins';

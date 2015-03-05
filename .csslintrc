@@ -15,7 +15,7 @@
   "font-sizes": true,
   "gradients": true,
   "ids": false,
-  "import": true,
+  "import": false,
   "important": false,
   "known-properties": true,
   "outline-none": true,

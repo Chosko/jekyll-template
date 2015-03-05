@@ -3,20 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>{{ page.title }}</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="author" content="">
     <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+    <link rel="icon" href="/favicon.ico">
 
     {% include styles.html %}
 
     <!-- build:js(app) /js/head-scripts.js -->
+    <!-- When you are ready for production, make your own build at http://modernizr.com/download/ -->
     <script src="/_bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
 
   </head>
-  <body>
+  <body role="document">
     <!--[if lt IE 8]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -28,3 +31,4 @@
 
   </body>
 </html>
+

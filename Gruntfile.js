@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     watch: {
       compass: {  // Build scss and sass files when changed or added. Then, autoprefix built css
         files: ['<%= yeoman.app %>/_scss/**/*.{scss,sass}'],
-        tasks: ['compass:server', 'newer:autoprefixer:server', 'newer:csslint:check'],
+        tasks: ['compass:server', 'newer:autoprefixer:server', 'newer:scsslint'],
         options: {
           event: ['added', 'changed']
         }
@@ -102,6 +102,10 @@ module.exports = function (grunt) {
       csslint: { // js_hint everything when the jshintrc file is changed
         files: ['.csslintrc'],
         tasks: ['csslint:check']
+      },
+      scsslint: {
+        files: ['.scss-lint.yml'],
+        tasks: ['scsslint']
       },
       jekyll: { // Run jekyll when source html content change
         files: [
@@ -200,7 +204,7 @@ module.exports = function (grunt) {
       },
       server: {
         options: {
-          debugInfo: true,
+          debugInfo: false,
           generatedImagesDir: '.tmp/img/generated'
         }
       }
@@ -272,8 +276,8 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/_includes/scripts.html'
         ],
         exclude: [
-          '<%= yeoman.app %>/_bower_components/bootstrap/dist/css/', // Include the src files directly with Compass
-          '<%= yeoman.app %>/_bower_components/modernizr'
+          // '<%= yeoman.app %>/_bower_components/bootstrap/dist/css/', // Include the src files directly with Compass
+          '<%= yeoman.app %>/_bower_components/modernizr' // Included manually on the header
         ],
         dependencies: true,
         devDependencies: true,
@@ -459,11 +463,15 @@ module.exports = function (grunt) {
         csslintrc: '.csslintrc'
       },
       check: {
-        src: [
-          '<%= yeoman.app %>/css/**/*.css',
-          '<%= yeoman.app %>/_scss/**/*.scss'
-        ]
+        src: ['<%= yeoman.app %>/css/**/*.css']
       }
+    },
+    scsslint: {
+      allFiles: ['<%= yeoman.app %>/_scss/**/*.scss'],
+      options: {
+        bundleExec: true,
+        config: '.scss-lint.yml'
+      },
     },
     concurrent: {
       server: [
@@ -537,7 +545,8 @@ module.exports = function (grunt) {
     'coffeelint:check',
     'coffee:dist',
     'jshint:all',
-    'csslint:check'
+    'csslint:check',
+    'scsslint'
   ]);
 
   grunt.registerTask('build', [
