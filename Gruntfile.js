@@ -498,8 +498,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        'coffee:dist',
-        'copy:dist',
+        'coffee:dist'
       ]
     },
     shell: {
@@ -570,10 +569,11 @@ module.exports = function (grunt) {
     'shell:gem',
     'shell:bower',
     'clean',
-    // Jekyll cleans files from the target directory, so must run first
+    'copy:fonts',
     'concurrent:dist',
     'injectDependencies',
-    'jekyll:dist',
+    'jekyll:dist', // Jekyll cleans files from the target directory, so must run first
+    'copy:dist',
     'useminPrepare',
     'concat',
     'autoprefixer:dist',
