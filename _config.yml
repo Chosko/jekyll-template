@@ -13,6 +13,7 @@ author:
   name: Author Name
   email: author.name@example.com
 
+
 #
 # Update this configuration block with your deploy settings
 #
@@ -48,4 +49,5 @@ show_drafts: true
 # Markdown library
 markdown: kramdown
 
-highliter: pygments
+# syntax highlighting library
+highlighter: pygments
