@@ -20,7 +20,7 @@ author:
 build_settings:
   app: app    # The source directory. Usually you don't need to change this
   dist: dist  # The dest directory. The whole website will be built there. Usually you don't need to change this
-  google_analytics: UA-XXXXX-X  # The google analytics id
+  ga: UA-XXXXX-X  # The google analytics id
   cname: ""   # example: my.domain.com. Your domain. If set, a CNAME file will be created in your dist directory, following the Github Pages conventions
   deploy:     # The repository used to deploy the built site. Make sure that the repository exists
     remote: "../" # example: git@github.com:User/mywebsite  make sure to set this before running grunt deploy!
@@ -46,7 +46,6 @@ future: true
 show_drafts: true
 
 # Markdown library
-markdown: redcarpet
-#   extensions: ['fenced_code_blocks', 'smart']
+markdown: kramdown
 
 highliter: pygments
