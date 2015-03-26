@@ -578,7 +578,6 @@ module.exports = function (grunt) {
     'coffee:dist',
     'jshint:all',
     'csslint:check',
-    'scsslint'
   ]);
 
   grunt.registerTask('build', [
