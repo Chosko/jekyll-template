@@ -26,7 +26,7 @@ module.exports = function (grunt) {
     watch: {
       compass: {  // Build scss and sass files when changed or added. Then, autoprefix built css
         files: ['<%= config.app %>/_scss/**/*.{scss,sass}'],
-        tasks: ['compass:server', 'newer:autoprefixer:server', 'newer:scsslint'],
+        tasks: ['compass:server', 'newer:autoprefixer:server'],
         options: {
           event: ['added', 'changed']
         }
@@ -104,10 +104,6 @@ module.exports = function (grunt) {
       csslint: { // js_hint everything when the jshintrc file is changed
         files: ['.csslintrc'],
         tasks: ['csslint:check']
-      },
-      scsslint: {
-        files: ['.scss-lint.yml'],
-        tasks: ['scsslint']
       },
       jekyll: { // Run jekyll when source html content change
         files: [
@@ -484,13 +480,6 @@ module.exports = function (grunt) {
         src: ['<%= config.app %>/css/**/*.css']
       }
     },
-    scsslint: {
-      allFiles: ['<%= config.app %>/_scss/**/*.scss'],
-      options: {
-        bundleExec: true,
-        config: '.scss-lint.yml'
-      },
-    },
     concurrent: {
       server: [
         'compass:server',
@@ -578,7 +567,6 @@ module.exports = function (grunt) {
     'coffee:dist',
     'jshint:all',
     'csslint:check',
-    'scsslint'
   ]);
 
   grunt.registerTask('build', [

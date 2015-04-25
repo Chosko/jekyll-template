@@ -1,6 +1,6 @@
 {
-  "name": "jekyll-project",
-  "version": "0.0.0",
+  "name": "jekyll-template",
+  "version": "0.2.1",
   "dependencies": {
     "normalize-css": "~3.0.2",
     "jquery": "~2.1.3",

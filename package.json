@@ -1,8 +1,8 @@
 {
   "name": "jekyll-project",
   "private": true,
-  "version": "0.0.0",
-  "description": "Yeoman workflow for jekyll-project",
+  "version": "0.2.1",
+  "description": "Yeoman workflow for jekyll-template",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.5",
